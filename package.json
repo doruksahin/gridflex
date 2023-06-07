@@ -1,6 +1,6 @@
 {
   "name": "@doruksahin/gridflex",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -58,5 +58,8 @@
   },
   "peerDependencies": {
     "react": "^18.2.0"
+  },
+  "dependencies": {
+    "tsconfig-paths-webpack-plugin": "^4.0.1"
   }
 }
