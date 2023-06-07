@@ -114,6 +114,9 @@
     "outDir": "dist", // Directory where the project will be generated
     "moduleResolution": "node", // Follow node.js rules for finding modules
     "allowSyntheticDefaultImports": true, //Assumes default exports if none are created manually
-    "emitDeclarationOnly": true // Don't generate JS (rollup will do that) only export type declarations
+    "emitDeclarationOnly": true, // Don't generate JS (rollup will do that) only export type declarations
+    "paths": {
+      "@/*": ["./*"]
+    }
   }
 }
