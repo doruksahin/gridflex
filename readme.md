@@ -2,6 +2,8 @@
 
 ### :zap: Publish React Components with a breeze! :zap:
 
+[Click here for demo](https://gridflex.vercel.app/)
+
 - Boilerplate repo allows you publish optimized packages which are compatible with CommonJS, ECMAScript.<br>
 - Also, allows you to use Typescript, which is optional.
 
@@ -19,6 +21,6 @@ npm run watch:tailwind
 2. Change `version` if you made an update.
 3. Run `npm publish`
 
-### Credits
+### For More
 
-Many thanks to [Alex Eagleson](https://dev.to/alexeagleson/how-to-create-and-publish-a-react-component-library-2oe) for enlightening.
+You can [check this nice guide](https://dev.to/alexeagleson/how-to-create-and-publish-a-react-component-library-2oe) for inspiration.
