@@ -1,26 +1,21 @@
-# :zap: Rollup + TailwindCSS 3 + Storybook + Typescript :zap:
+# :zap: Flexable grid for React.js :zap:
 
-### :zap: Publish React Components with a breeze! :zap:
+## :zap: Merge selected cells and Drag&Drop to anywhere inside grid :zap:
+
+### :zap: Motivation :zap:
+
+Using visuals can be effective when it comes to memoizing. <br>
+As a [Obsidian](https://obsidian.md/) user, I wanted to leverage memoizing with using more visuals. <br>
+Therefore, I created [Memory Islands](https://www.memoryislands.com.tr/)
+
+### :zap: Usage :zap:
 
 [Click here for demo](https://gridflex.vercel.app/)
 
-- Boilerplate repo allows you publish optimized packages which are compatible with CommonJS, ECMAScript.<br>
-- Also, allows you to use Typescript, which is optional.
+### :zap: Features :zap:
 
-### Sandbox environment
+You can bring your custom component for merged cells.<br>
 
-```
-// run these scripts in different terminals
-npm run storybook
-npm run watch:tailwind
-```
+### :zap: Using Examples :zap:
 
-### To publish
-
-1. Change `name` and `publicConfig` from `package.json`
-2. Change `version` if you made an update.
-3. Run `npm publish`
-
-### For More
-
-You can [check this nice guide](https://dev.to/alexeagleson/how-to-create-and-publish-a-react-component-library-2oe) for inspiration.
+- You can use it like a Corkboard in [Memory Islands](https://www.memoryislands.com.tr/)
