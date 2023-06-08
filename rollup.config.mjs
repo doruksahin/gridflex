@@ -28,7 +28,7 @@ export default [
       tailwindcss(),
       resolve(),
       commonjs(),
-      typescript({tsconfig: './tsconfig.json'}),
+      typescript({tsconfig: './tsconfig.json', noEmitOnError: false}),
       postcss(),
       terser(),
     ],

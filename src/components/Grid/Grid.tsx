@@ -1,4 +1,4 @@
-import React, {cloneElement, useEffect, useState} from 'react';
+import React, {ReactNode, cloneElement, useEffect, useState} from 'react';
 import usePrevious from '@/src/hooks/usePrevious';
 import useDraggingPosition from '@/src/hooks/useDraggingPosition';
 
@@ -15,13 +15,28 @@ type Point = {
   y: number;
 };
 
+type MergedCell = {
+  xLength: number;
+  yLength: number;
+  indices: number[];
+  [key: string]: any;
+};
+
+type GridProps = {
+  length: number;
+  children: ReactNode;
+  isEditing: boolean;
+  initialData: MergedCell[];
+  setData: (arg0: any) => void;
+};
+
 export default function Grid({
   length = 10,
   children,
   isEditing = false,
   initialData = [],
   setData,
-}) {
+}: GridProps) {
   const [isDragging, setIsDragging] = useState<boolean | null>(null);
   const previousIsDragging = usePrevious(isDragging);
   const isDraggingStopped = previousIsDragging == true && isDragging == false;

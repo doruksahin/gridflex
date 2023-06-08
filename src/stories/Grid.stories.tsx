@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import {Grid, GridCell} from '@/src/components';
-import {useState} from 'react';
+import {ReactNode, useState} from 'react';
 import React from 'react';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
@@ -101,7 +101,13 @@ export const WithInitialData: Story = {
   ),
 };
 
-function GridWithInitialDataAndCustomCell({initialData, isEditing}) {
+function GridWithInitialDataAndCustomCell({
+  initialData,
+  isEditing,
+}: {
+  initialData: any;
+  isEditing: any;
+}) {
   const [data, setData] = useState(initialData);
   return (
     <Grid initialData={data} setData={setData} isEditing={isEditing}>
@@ -110,7 +116,7 @@ function GridWithInitialDataAndCustomCell({initialData, isEditing}) {
   );
 }
 
-function HandsomeGridContainer({children}) {
+function HandsomeGridContainer({children}: {children: ReactNode}) {
   return (
     <div className="flex h-screen items-center justify-center">
       <div className="border-4 border-black  bg-opacity-50 w-[90%] h-[90%]">
