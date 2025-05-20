@@ -26,7 +26,12 @@ export default function useDraggingPosition() {
   function onDraggingStart(
     event: React.MouseEvent<HTMLElement> | React.TouchEvent<HTMLElement>
   ) {
-    const rect = (event.target as HTMLElement).getBoundingClientRect();
+    // Find the closest parent with data-index (the grid cell container)
+    let cell = event.target as HTMLElement;
+    while (cell && !cell.dataset.index && cell.parentElement) {
+      cell = cell.parentElement as HTMLElement;
+    }
+    const rect = cell.getBoundingClientRect();
     const { x, y, width, height } = rect;
     const clientX =
       'touches' in event && event.touches.length > 0
