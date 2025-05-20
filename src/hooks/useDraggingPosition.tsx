@@ -1,41 +1,79 @@
 import useMousePosition from '@/src/hooks/useMousePosition';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
+
+interface DraggingRect {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  lastMouseX: number;
+  lastMouseY: number;
+  mouseLeft: number;
+  mouseTop: number;
+}
+
+interface MousePosition {
+  x: number | null;
+  y: number | null;
+}
 
 export default function useDraggingPosition() {
-  const mousePosition = useMousePosition();
-  const [draggingRect, setDraggingRect] = useState({});
+  const mousePosition: MousePosition = useMousePosition();
+  const [draggingRect, setDraggingRect] = useState<
+    DraggingRect | Record<string, never>
+  >({});
 
-  function onDraggingStart(event) {
-    const rect = event.target.getBoundingClientRect();
-    const {x, y, width, height, top, right, bottom, left} = rect;
+  function onDraggingStart(
+    event: React.MouseEvent<HTMLElement> | React.TouchEvent<HTMLElement>
+  ) {
+    const rect = (event.target as HTMLElement).getBoundingClientRect();
+    const { x, y, width, height } = rect;
+    const clientX =
+      'touches' in event && event.touches.length > 0
+        ? event.touches[0].clientX
+        : (event as React.MouseEvent).clientX;
+    const clientY =
+      'touches' in event && event.touches.length > 0
+        ? event.touches[0].clientY
+        : (event as React.MouseEvent).clientY;
 
     setDraggingRect({
       x,
       y,
       width,
       height,
-      lastMouseX: event.clientX,
-      lastMouseY: event.clientY,
-      mouseLeft: x - event.clientX,
-      mouseTop: y - event.clientY,
+      lastMouseX: clientX,
+      lastMouseY: clientY,
+      mouseLeft: x - clientX,
+      mouseTop: y - clientY,
     });
   }
 
   useEffect(() => {
-    if (draggingRect.x == null) return;
-    const {x: mouseX, y: mouseY} = mousePosition;
-    setDraggingRect(prev => ({
-      ...prev,
-      x: prev.x - (prev.lastMouseX - mouseX),
-      y: prev.y - (prev.lastMouseY - mouseY),
-      lastMouseX: mouseX,
-      lastMouseY: mouseY,
-    }));
+    if (
+      (draggingRect as DraggingRect).x == null ||
+      mousePosition.x == null ||
+      mousePosition.y == null
+    )
+      return;
+    const { x: mouseX, y: mouseY } = mousePosition;
+    setDraggingRect((prev) => {
+      const prevRect = prev as DraggingRect;
+      return {
+        ...prevRect,
+        x: prevRect.x - (prevRect.lastMouseX - mouseX),
+        y: prevRect.y - (prevRect.lastMouseY - mouseY),
+        lastMouseX: mouseX,
+        lastMouseY: mouseY,
+      };
+    });
   }, [mousePosition]);
 
-  function onDraggingStop(event) {
+  function onDraggingStop(
+    event?: React.MouseEvent<HTMLElement> | React.TouchEvent<HTMLElement>
+  ) {
     setDraggingRect({});
   }
 
-  return {draggingRect, onDraggingStart, onDraggingStop};
+  return { draggingRect, onDraggingStart, onDraggingStop };
 }

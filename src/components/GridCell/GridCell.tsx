@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 
 export default function GridCell({
   isEditing,
@@ -8,38 +8,44 @@ export default function GridCell({
   onUndoMerge,
 }: {
   isEditing: boolean;
-  data: any;
-  setData: any;
+  data: Array<{ indices: number[]; yourCustomComponentText?: string }>;
+  setData: React.Dispatch<React.SetStateAction<any>>;
   index: number;
-  onUndoMerge: any;
+  onUndoMerge: () => void;
 }) {
-  const [text, setText] = useState(null);
+  const [text, setText] = useState<string | null>(null);
 
-  const datum = data.find(datum => datum.indices[0] == index);
-  if (datum && text != datum.yourCustomComponentText) {
-    setText(datum.yourCustomComponentText);
-  }
+  const datum = data.find((datum) => datum.indices[0] === index);
 
   useEffect(() => {
-    if (!text) return;
-    setData(prevData =>
-      prevData.map(square => {
-        if (square.indices.includes(index)) {
-          return {...square, yourCustomComponentText: text};
-        }
-        return square;
-      }),
-    );
-  }, [text]);
+    if (datum && text !== datum.yourCustomComponentText) {
+      setText(datum.yourCustomComponentText ?? null);
+    }
+    // Only run when datum or its text changes
+  }, [datum?.yourCustomComponentText, index]);
 
-  function textChanged(event) {
+  useEffect(() => {
+    if (text === null) return;
+    setData(
+      (
+        prevData: Array<{ indices: number[]; yourCustomComponentText?: string }>
+      ) =>
+        prevData.map((square) => {
+          if (square.indices.includes(index)) {
+            return { ...square, yourCustomComponentText: text };
+          }
+          return square;
+        })
+    );
+  }, [text, setData, index]);
+
+  function textChanged(event: ChangeEvent<HTMLInputElement>) {
     setText(event.target.value);
   }
 
   function removeNote() {
     onUndoMerge();
-    const {[index]: removedObj, ...newData} = data;
-    setData(data.filter(datum => datum.indices[0] !== index));
+    setData(data.filter((datum) => datum.indices[0] !== index));
   }
 
   return (
@@ -51,7 +57,8 @@ export default function GridCell({
               removeNote();
               onUndoMerge();
             }}
-            className="bg-red-500 cursor-pointer">
+            className="bg-red-500 cursor-pointer"
+          >
             X
           </div>
           <MyText text={text} />
@@ -63,6 +70,6 @@ export default function GridCell({
   );
 }
 
-function MyText({text}) {
+function MyText({ text }: { text: string | null }) {
   return <div>{text ? text : 'This is a custom grid cell'}</div>;
 }
